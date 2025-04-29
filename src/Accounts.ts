@@ -114,6 +114,9 @@ export class Accounts extends Effect.Service<Accounts>()("Accounts", {
 }) {
   static Test = this.DefaultWithoutDependencies.pipe(
     Layer.provideMerge(SqlTest),
-    Layer.provideMerge(Uuid.Test)
+    Layer.provide(Uuid.Test)
+    //Layer.provide(Uuid.Default)
   )
 }
+
+

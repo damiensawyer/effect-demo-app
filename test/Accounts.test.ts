@@ -10,7 +10,7 @@ import { makeTestLayer } from "app/lib/Layer"
 import { DateTime, Effect, Layer, Option, pipe, Redacted } from "effect"
 import { accessTokenFromRedacted } from "../src/Domain/AccessToken.js"
 
-describe("Accounts", () => {
+describe("Account", () => {
   it.effect("createUser", () =>
     Effect.gen(function*() {
       const accounts = yield* Accounts

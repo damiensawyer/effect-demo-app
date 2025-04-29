@@ -4,7 +4,7 @@ import { BatchSpanProcessor } from "@opentelemetry/sdk-trace-base"
 import { Config, Effect, Layer, Redacted } from "effect"
 
 export const TracingLive = Layer.unwrapEffect(
-  Effect.gen(function*() {
+  Effect.gen(function* () {
     const apiKey = yield* Config.option(Config.redacted("HONEYCOMB_API_KEY"))
     const dataset = yield* Config.withDefault(
       Config.string("HONEYCOMB_DATASET"),

@@ -12,4 +12,6 @@ export class Uuid extends Effect.Service<Uuid>()("Uuid", {
       generate: Effect.succeed("test-uuid")
     })
   )
+
+  static myname = "Damo"
 }
