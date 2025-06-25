@@ -2,6 +2,13 @@
 
 This file provides guidance to Claude Code (claude.ai/code) when working with code in this repository.
 
+## My notes
+I am Damien, a senior dev with experience in TypeScript, Fucntional Programming, C#, Node, React, Svelte, KnockoutJS, fp-ts (version 2x) and am learning effect ts. I have the basics down. 
+This is a demo app which I got from the internet for effect which I am using it to polish my skills. 
+I have never used 'nix' before as an install tool but have it running. 
+I am using this project to learn Effect, hopefully up to advanced level, before I utlize it in my current project
+
+
 ## Project Overview
 
 This is an Effect HTTP Server demo application showcasing modern functional programming patterns in TypeScript. The codebase demonstrates domain-driven design with the Effect ecosystem, featuring clean architecture, type-safe database operations, and comprehensive observability.
