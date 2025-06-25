@@ -30,6 +30,9 @@ Make sure to create a `.env` file in the root of the repository based on the `.e
 
 ### Authentication
 Most endpoints require authentication via a `token` cookie. Only user creation is public.
+You can paste a user token into the authorize field in the Swagger doc. 
+use lazysql or similar to read the database in /data. 
+I have a user with token 0197a956-3880-75bf-bb48-b355f280295d
 
 ### API Endpoints Summary
 
