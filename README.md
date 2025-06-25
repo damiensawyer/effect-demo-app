@@ -89,3 +89,86 @@ curl -X GET http://localhost:3000/accounts/users/me \
 2. Create a user first to get an access token
 3. Use the token to create groups and people
 4. Explore the functional programming patterns in the Effect codebase
+
+## How to Authenticate / "Log In"
+
+This app doesn't have a traditional login endpoint. Instead, **user creation IS the authentication process**. Here's the complete flow:
+
+### Step-by-Step Authentication
+
+#### 1. Create a User Account (This authenticates you)
+```bash
+curl -c cookies.txt -X POST http://localhost:3000/accounts/users \
+  -H "Content-Type: application/json" \
+  -d '{"email": "your-email@example.com"}'
+```
+
+The `-c cookies.txt` flag saves cookies to a file. The server automatically sets a `token` cookie.
+
+#### 2. Use the Saved Cookies for Subsequent Requests
+```bash
+curl -b cookies.txt -X GET http://localhost:3000/accounts/users/me
+```
+
+The `-b cookies.txt` flag loads cookies from the file.
+
+#### 3. Alternative: Manual Token Extraction
+If you prefer to handle tokens manually, extract the `accessToken` from the user creation response:
+
+```bash
+# Create user and save response
+response=$(curl -s -X POST http://localhost:3000/accounts/users \
+  -H "Content-Type: application/json" \
+  -d '{"email": "test@example.com"}')
+
+# Extract token (requires jq)
+token=$(echo $response | jq -r '.accessToken')
+
+# Use token in subsequent requests
+curl -X GET http://localhost:3000/accounts/users/me \
+  -H "Cookie: token=$token"
+```
+
+### Using Swagger UI for Authentication
+
+1. Open http://localhost:3000/docs
+2. Use the `POST /accounts/users` endpoint to create a user
+3. The browser will automatically handle the authentication cookie
+4. You can now use other authenticated endpoints in the Swagger UI
+
+### Important Notes
+
+- **No separate login**: User creation automatically authenticates you
+- **Cookie-based auth**: The server sets a `token` cookie automatically  
+- **Authorization**: You can only access your own user data and resources you create
+- **Session persistence**: Cookies remain valid until manually cleared
+
+### Troubleshooting Authentication
+
+If you're getting "Unauthorized" errors:
+
+1. **Make sure you created a user first** - this is required for authentication
+2. **Check cookie handling** - ensure your client sends the `token` cookie
+3. **Use the browser/Swagger UI** - it handles cookies automatically
+4. **For curl**: Use `-c` to save cookies and `-b` to send them
+
+### Example Complete Workflow
+```bash
+# 1. Create user (saves auth cookie)
+curl -c auth-cookies.txt -X POST http://localhost:3000/accounts/users \
+  -H "Content-Type: application/json" \
+  -d '{"email": "demo@example.com"}'
+
+# 2. Get your profile (uses saved cookie)
+curl -b auth-cookies.txt -X GET http://localhost:3000/accounts/users/me
+
+# 3. Create a group (uses saved cookie)
+curl -b auth-cookies.txt -X POST http://localhost:3000/groups/ \
+  -H "Content-Type: application/json" \
+  -d '{"name": "My Demo Group"}'
+
+# 4. Add person to group (uses saved cookie)
+curl -b auth-cookies.txt -X POST http://localhost:3000/people/groups/1/people \
+  -H "Content-Type: application/json" \
+  -d '{"firstName": "John", "lastName": "Doe", "dateOfBirth": "1990-01-01"}'
+```
