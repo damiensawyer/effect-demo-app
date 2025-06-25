@@ -172,3 +172,7 @@ curl -b auth-cookies.txt -X POST http://localhost:3000/people/groups/1/people \
   -H "Content-Type: application/json" \
   -d '{"firstName": "John", "lastName": "Doe", "dateOfBirth": "1990-01-01"}'
 ```
+
+
+## SQL Lite db
+[SQLLite TUI](https://github.com/jorgerojas26/lazysql)
