@@ -11,7 +11,7 @@ import { UsersRepo } from "./UsersRepo.js"
 
 export const AuthenticationLive = Layer.effect(
   Authentication,
-  Effect.gen(function*() {
+  Effect.gen(function* () {
     const userRepo = yield* UsersRepo
 
     return Authentication.of({
@@ -38,10 +38,9 @@ export const HttpAccountsLive = HttpApiBuilder.group(
   Api,
   "accounts",
   (handlers) =>
-    Effect.gen(function*() {
+    Effect.gen(function* () {
       const accounts = yield* Accounts
       const policy = yield* AccountsPolicy
-      
 
       return handlers
         .handle("updateUser", ({ path, payload }) =>
@@ -50,13 +49,15 @@ export const HttpAccountsLive = HttpApiBuilder.group(
             policyUse(policy.canUpdate(path.id))
           ))
         .handle("getUserMe", () =>
+          // Current User is special here. It is being auto injected from the Authentication class's provide property... which is a magic string / reserved word that is part of the @effect/platform library. Along with failure and security
           CurrentUser.pipe(
             Effect.flatMap(accounts.embellishUser),
             withSystemActor
           ))
-        .handle("allusers", () =>
-          CurrentUser.pipe(
-            Effect.flatMap(accounts.embellishUser),
+        .handle("allUsers", () =>
+          pipe(
+            accounts.getAllUsers(),
+            Effect.orDie,
             withSystemActor
           ))
         .handle("getUser", ({ path }) =>

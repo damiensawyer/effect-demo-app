@@ -1,6 +1,6 @@
 import { HttpApiSchema } from "@effect/platform"
 import { Effect, Predicate, Schema } from "effect"
-import type { User } from "../Domain/User.js"
+import { User } from "../Domain/User.js"
 import { CurrentUser, UserId } from "../Domain/User.js"
 
 export class Unauthorized extends Schema.TaggedError<Unauthorized>()(

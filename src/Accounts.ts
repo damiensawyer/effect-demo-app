@@ -78,9 +78,8 @@ export class Accounts extends Effect.Service<Accounts>()("Accounts", {
 
     const getAllUsers = () =>
       pipe(
-        userRepo.getAll,
-        //Effect.withSpan("Accounts.getAll"),
-        policyRequire("User", "read")
+        userRepo.getAll(),
+        Effect.withSpan("Accounts.getAll")
       )
 
     const findUserById = (id: UserId) =>

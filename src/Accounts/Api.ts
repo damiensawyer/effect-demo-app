@@ -6,7 +6,7 @@ import { CurrentUser, User, UserIdFromString, UserNotFound, UserWithSensitive } 
 export class Authentication extends HttpApiMiddleware.Tag<Authentication>()(
   "Accounts/Api/Authentication",
   {
-    provides: CurrentUser,
+    provides: CurrentUser, // 'provides' is a magic string / reserved word which is part of the @effect/platform library. Along with failure and security
     failure: Unauthorized,
     security: {
       cookie: HttpApiSecurity.apiKey({
@@ -44,9 +44,8 @@ export class AccountsApi extends HttpApiGroup.make("accounts")
       .setPayload(User.jsonCreate)
   )
   .add(
-    HttpApiEndpoint.get("allusers", "/users")
-      .addSuccess(UserWithSensitive.json)
-      .addError(UserNotFound)
+    HttpApiEndpoint.get("allUsers", "/users")
+      .addSuccess(Schema.Array(User.json))
   )
   .annotate(OpenApi.Title, "Accounts")
   .annotate(OpenApi.Description, "Manage user accounts")

@@ -1,7 +1,12 @@
 {
   "permissions": {
     "allow": [
-      "Bash(sqlite3:*)"
+      "Bash(sqlite3:*)",
+      "Bash(rg:*)",
+      "WebFetch(domain:effect.website)",
+      "WebFetch(domain:github.com)",
+      "Bash(find:*)",
+      "Bash(pnpm check:*)"
     ],
     "deny": []
   }
