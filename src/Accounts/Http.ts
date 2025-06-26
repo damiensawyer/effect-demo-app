@@ -58,7 +58,7 @@ export const HttpAccountsLive = HttpApiBuilder.group(
           pipe(
             accounts.getAllUsers(),
             Effect.orDie,
-            withSystemActor
+            withSystemActor // optional?
           ))
         .handle("getUser", ({ path }) =>
           pipe(
