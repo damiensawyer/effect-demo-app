@@ -158,12 +158,12 @@ If you're getting "Unauthorized" errors:
 ### Example Complete Workflow
 ```bash
 # 1. Create user (saves auth cookie)
-curl -c auth-cookies.txt -X POST http://localhost:3000/accounts/users \
+curl -c auth-cookies.txt -X POST http://localhost:3000/users \
   -H "Content-Type: application/json" \
   -d '{"email": "demo@example.com"}'
 
 # 2. Get your profile (uses saved cookie)
-curl -b auth-cookies.txt -X GET http://localhost:3000/accounts/users/me
+curl -b auth-cookies.txt -X GET http://localhost:3000/users/me
 
 # 3. Create a group (uses saved cookie)
 curl -b auth-cookies.txt -X POST http://localhost:3000/groups/ \
