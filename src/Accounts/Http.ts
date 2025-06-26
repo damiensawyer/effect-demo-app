@@ -41,6 +41,7 @@ export const HttpAccountsLive = HttpApiBuilder.group(
     Effect.gen(function*() {
       const accounts = yield* Accounts
       const policy = yield* AccountsPolicy
+      
 
       return handlers
         .handle("updateUser", ({ path, payload }) =>
@@ -49,6 +50,11 @@ export const HttpAccountsLive = HttpApiBuilder.group(
             policyUse(policy.canUpdate(path.id))
           ))
         .handle("getUserMe", () =>
+          CurrentUser.pipe(
+            Effect.flatMap(accounts.embellishUser),
+            withSystemActor
+          ))
+        .handle("allusers", () =>
           CurrentUser.pipe(
             Effect.flatMap(accounts.embellishUser),
             withSystemActor

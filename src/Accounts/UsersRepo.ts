@@ -21,6 +21,12 @@ export class UsersRepo extends Effect.Service<UsersRepo>()(
         Result: User,
         execute: (key) => sql`select * from users where accessToken = ${key}`
       })
+
+      const getAll = SqlSchema.findAll({
+        Request: AccessToken,
+        Result: User,
+        execute: (key) => sql`select * from users`
+      })
       const findByAccessToken = (apiKey: AccessToken) =>
         pipe(
           findByAccessTokenSchema(apiKey),
@@ -28,7 +34,7 @@ export class UsersRepo extends Effect.Service<UsersRepo>()(
           Effect.withSpan("UsersRepo.findByAccessToken")
         )
 
-      return { ...repo, findByAccessToken } as const
+      return { ...repo, findByAccessToken,getAll } as const
     }),
     dependencies: [SqlLive]
   }

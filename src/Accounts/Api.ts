@@ -43,6 +43,11 @@ export class AccountsApi extends HttpApiGroup.make("accounts")
       .addSuccess(UserWithSensitive.json)
       .setPayload(User.jsonCreate)
   )
+  .add(
+    HttpApiEndpoint.get("allusers", "/users")
+      .addSuccess(UserWithSensitive.json)
+      .addError(UserNotFound)
+  )
   .annotate(OpenApi.Title, "Accounts")
   .annotate(OpenApi.Description, "Manage user accounts")
 {}

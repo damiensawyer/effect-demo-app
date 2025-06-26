@@ -12,7 +12,7 @@ import { SqlLive, SqlTest } from "./Sql.js"
 import { Uuid } from "./Uuid.js"
 
 export class Accounts extends Effect.Service<Accounts>()("Accounts", {
-  effect: Effect.gen(function*() {
+  effect: Effect.gen(function* () {
     const sql = yield* SqlClient.SqlClient
     const accountRepo = yield* AccountsRepo
     const userRepo = yield* UsersRepo
@@ -76,6 +76,13 @@ export class Accounts extends Effect.Service<Accounts>()("Accounts", {
         policyRequire("User", "read")
       )
 
+    const getAllUsers = () =>
+      pipe(
+        userRepo.getAll,
+        //Effect.withSpan("Accounts.getAll"),
+        policyRequire("User", "read")
+      )
+
     const findUserById = (id: UserId) =>
       pipe(
         userRepo.findById(id),
@@ -102,6 +109,7 @@ export class Accounts extends Effect.Service<Accounts>()("Accounts", {
       updateUser,
       findUserByAccessToken,
       findUserById,
+      getAllUsers,
       embellishUser
     } as const
   }),
